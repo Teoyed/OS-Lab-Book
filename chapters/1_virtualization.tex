@@ -1,0 +1,264 @@
+\chapter{Virtual Machines and Linux Installation}
+
+\section{What is virtualization?}
+Virtualization is a technology that enables the creation of virtual environments from a single physical machine,
+allowing for more efficient use of resources by distributing them across computing environments.
+
+\section{Benefits of virtualization}
+Virtualization offers numerous benefits to both on-premises and cloud-based data centers that support IT operations, including the following:
+
+\begin{itemize}
+
+    \item \textbf{Resource efficiency:} Makes better use of hardware by running multiple systems on one machine.
+
+    \item \textbf{Easier management:} Simplifies system monitoring and maintenance through centralized control.
+
+    \item \textbf{Minimal downtime:} Enables quick recovery or migration of virtual machines during failures.
+
+    \item \textbf{Faster provisioning:} Allows new servers or environments to be created within minutes.
+
+    \item \textbf{Disaster recovery (DR):} Simplifies data backup and restoration in case of system failure.
+
+    \item \textbf{Cost-effectiveness:} Reduces hardware and energy costs by maximizing resource usage.
+
+\end{itemize}
+
+\section{The main components of virtualization}
+Virtualization relies on several key components to create and manage virtual environments.
+Each plays a vital role in ensuring the effective allocation of resources so multiple VMs can run simultaneously without interference.
+
+\begin{itemize}
+
+    \item Physical machine (server/computer)
+
+    \item Virtual machine (VMs)
+
+    \item Hypervisor
+
+\end{itemize}
+
+\subsection{Physical machine (server/computer)}
+The physical machine, also referred to as the “host machine” is the hardware (e.g., server or computer) that provides CPU,
+memory, storage and network resources for the virtual machines.
+
+\subsection{Virtual machine}
+A virtual machine (VM) is a virtual environment that simulates a physical computer in software form. VMs are usually referred to as guests, with one or more “guest” machines running on a host machine.
+
+Virtual machines typically consist of several files, including the configuration, storage for the virtual hard drive and other dependencies. By sharing system resources among virtual machines, virtualization offers on-demand scalability, efficiency and cost savings.
+
+\subsection{Hypervisors}
+A hypervisor is the software layer that coordinates VMs. It serves as an interface between the VM and the underlying physical hardware, ensuring that each has access to the physical resources it needs to execute.
+
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[scale=0.07]{images/base-hypervisor.png}
+%     \caption{Hypervisor Architecture}
+%     \label{fig:hypervisor}
+% \end{figure}
+
+\vspace{0.5 cm}
+
+There are two types of hypervisors:
+
+\begin{itemize}
+
+    \item \textbf{Type 1 hypervisors:} Type 1 or “bare-metal” hypervisors interact with the underlying physical resources, replacing the traditional operating system altogether.\\
+    % \begin{figure}[h!]
+    % \centering
+    % \includegraphics[scale=0.05]{images/type1-hypervisor.jpg}
+    % \caption{Hypervisor Type 1}
+    % \label{fig:hypervisor}
+    % \end{figure}
+    
+    \item \textbf{Type 2 hypervisors:} Type 2 hypervisors run as an application on an existing OS.\\
+    % \begin{figure}[h!]
+    % \centering
+    % \includegraphics[scale=0.05]{images/type2-hypervisor.jpg}
+    % \caption{Hypervisor Type 2}
+    % \label{fig:hypervisor}
+    % \end{figure}
+
+\end{itemize}
+
+\section{Virtualization Softwares}
+For each operating system there is suitable software.
+Here is some VMs for each operating system:
+
+\textbf{1. Windows Hosts}
+\begin{itemize}
+
+    \item \textbf{Oracle VirtualBox:} Free and open-source, widely used in academic settings.
+
+    \item \textbf{VMware Workstation Player/Pro:} Stable and powerful, Player is free for personal use.
+
+    \item \textbf{Microsoft Hyper-V:} Included in Windows Pro/Enterprise editions, best for Windows focused use.
+
+\end{itemize}
+
+\vspace{0.5 cm}
+
+\textbf{2. macOS Hosts}
+\begin{itemize}
+
+    \item \textbf{Parallels Desktop:} User-friendly, integrates smoothly with macOS (paid).
+
+    \item \textbf{VMware Fusion:} VMware’s version for Mac.
+
+    \item \textbf{UTM (QEMU-based):} Open-source, works on Apple Silicon (M1/M2/M3).
+
+\end{itemize}
+
+\vspace{0.5 cm}
+
+\textbf{3. Linux Hosts}
+\begin{itemize}
+
+    \item \textbf{KVM (Kernel-based Virtual Machine):} Built into the Linux kernel, very efficient.
+
+    \item \textbf{QEMU:} Often used with KVM for emulation and virtualization.
+
+    \item \textbf{Oracle VirtualBox:} Easy to install and cross-platform.
+
+\end{itemize}
+
+\section{System requirments for virtualization}
+To run a VM, a system should:
+
+% \begin{table}[h!]
+% \centering
+% \small
+% \renewcommand{\arraystretch}{1.3}
+% \begin{tabular}{|>{\centering\arraybackslash}p{4cm}|>{\centering\arraybackslash}p{9cm}|}
+% \hline
+% \textbf{Requirement} & \textbf{Description} \\ \hline
+% Virtualization Support & CPU must support Intel VT or AMD-V technology. \\ \hline
+% 64-bit Processor & Processor should be 64-bit and virtualization must be enabled in BIOS/UEFI. \\ \hline
+% Memory (RAM) & At least 8GB RAM is recommended; 4GB may work but with performance limitations. \\ \hline
+% Disk Space & Minimum 20GB of free disk space (recommended for Ubuntu). \\ \hline
+% \end{tabular}
+% \caption{System Requirements for Running Virtual Machines}
+% \end{table}
+
+\section{Installing an operating system on a VM}
+Setting up a VM involves:
+
+\begin{itemize}
+
+    \item Downloading and installing virtualization software (VMware or VirtualBox)
+
+    \item Allocating resources (CPU, RAM, and disk space) to the VM
+
+    \item Configuring network settings to allow internet access inside the VM
+
+\end{itemize}
+
+\section{Intalling Ubuntu (or another prefered Linux distro) on a VM}
+Installation steps:
+
+\begin{enumerate}
+
+    \item \textbf{Download Ubuntu:} Get the latest Ubuntu ISO from the official website
+
+    \item \textbf{Create a new VM:} Select ”Linux” as the operating system type and allocate appropriate resources
+
+    \item \textbf{Mount the Ubuntu ISO:} Attach the downloaded Ubuntu image as a bootable disk
+
+    \item \textbf{Start the VM and Install Ubuntu:}
+    \begin{itemize}
+
+        \item Choose installation settings (language, keyboard layout, etc.)
+
+        \item Configure partitions (default settings work for beginners)
+
+        \item Set up a username and password for the system
+        
+    \end{itemize}
+
+    \item \textbf{Complete Installation and Restart:} Once installed, reboot the VM and remove the installation media
+
+\end{enumerate}
+
+\section{Basic Troubleshooting During Installation}
+
+\begin{enumerate}
+
+    \item \textbf{Virtualization disabled in BIOS:}
+    \begin{itemize}
+        \item Symptoms: Installation takes more than 1 hour
+        \item Solution: Enter BIOS and enable VT-x / AMD-V
+        \item Tip: The key to enter BIOS is different on each motherboard (F2, F10, Del, Esc)
+    \end{itemize}
+
+    \item \textbf{Ubuntu installation is very slow:}
+    \begin{itemize}
+        \item Symptoms: Error message when running a VM
+        \item Solution: Increase RAM and CPU cores allocated to the VM
+    \end{itemize}
+
+    \item \textbf{Black screen after installation:}
+    \begin{itemize}
+        \item Symptoms: Black screen after reboot
+        \item Solution:
+        \begin{itemize}
+            \item Enable 3D Acceleration
+            \item Install VMware Tools / VirtualBox Guest Additions
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{No Internet connection in VM:}
+    \begin{itemize}
+        \item Symptoms: Ping to google.com doesn’t work
+        \item Solution:
+        \begin{itemize}
+            \item Change Network Adapter to NAT
+            \item Check firewall settings on the host
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Not enough disk space:}
+    \begin{itemize}
+        \item Symptoms: “No space left on device” error
+        \item Solution: Increase virtual disk size from VM settings
+    \end{itemize}
+
+\end{enumerate}
+
+\section{Hands-on Tasks:}
+\textbf{Installing and Configuring a Virtual Machine}
+
+\textbf{Objective:} install a virtual machine using a hypervisor and set up Ubuntu Linux as a guest operating system.
+
+\textbf{Instructions:}
+
+\begin{enumerate}
+
+    \item Install a virtualization platform (VMware, VirtualBox, or Parallels).
+
+    \item Create a new virtual machine and allocate:
+    \begin{itemize}
+        \item 2 CPU cores
+        \item 4–8 GB RAM
+        \item 20 GB virtual disk
+    \end{itemize}
+
+    \item Mount the Ubuntu ISO image and perform the installation.
+
+    \item After installation, apply the following configurations:
+    \begin{itemize}
+        \item Enable 3D Acceleration (if available)
+        \item Install VMware Tools or VirtualBox Guest Additions
+        \item Test network connectivity (ping google.com)
+        \item Take a screenshot of your running Ubuntu desktop
+    \end{itemize}
+\end{enumerate}
+Show the instructor your running Ubuntu VM with all configurations applied.
+
+\section*{Resources}
+
+\textbf{Download VMware Workstation Pro / Fusion:}\\
+https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion
+
+\textbf{Download Ubuntu Desktop:}\\
+https://ubuntu.com/download/desktop
+
+\newpage
