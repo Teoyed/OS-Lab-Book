@@ -44,12 +44,12 @@
 
 % Better section titles
 \RequirePackage{titlesec}
-\titleformat{\chapter}[frame]{\Huge\bfseries}
-    {{\color{chapter}\Large Chapter \thechapter}}{0em}
+\titleformat{\chapter}[frame]{\huge\bfseries}
+    {{\color{chapter}\Large Chapter \thechapter}}{10pt}
     {\thispagestyle{fancy}}
 \titleformat{\section}[block]
     {\normalfont\bfseries\Large}
-    {{\color{section}\large Section \thesection:}}{6pt}{}
+    {{\color{section}\large Section \thesection}}{6pt}{}
 
 % Better title page
 \RequirePackage{anyfontsize}
@@ -88,3 +88,6 @@
         \end{tabular}
     \end{center}
 }
+
+% Load hyperref near the end so it can see prior package settings
+\RequirePackage[hidelinks]{hyperref}
