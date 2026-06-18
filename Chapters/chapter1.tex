@@ -1,0 +1,129 @@
+%----------------------------------------------------------------------------------------
+%	CHAPTER 1
+%----------------------------------------------------------------------------------------
+\chapterimage{ChapterImages/chapter1.jpg} % Chapter heading image
+
+\chapter{Virtual Machines and Linux Installation}
+
+\section{What is virtualization?}
+Virtualization is a technology that lets you create \textbf{virtual computers} inside one physical computer.
+Instead of buying many physical machines, you can run several virtual machines on a single computer.
+This makes much better use of your hardware.
+\vspace{0.2cm}\\
+Think of it like this: one powerful physical computer can act as several separate computers at the same time.
+
+\section{Benefits of Virtualization}
+Virtualization gives many advantages, especially for learning and working with operating systems:
+\begin{itemize}
+    \item \textbf{Better use of resources}: You can run many systems on one computer.
+    \item \textbf{Easier management}: It is simpler to control and monitor everything from one place.
+    \item \textbf{Less downtime}: If something fails, you can quickly move or restart a virtual machine.
+    \item \textbf{Fast setup}: You can create a new virtual computer in just a few minutes.
+    \item \textbf{Disaster recovery}: It is easier to backup and restore systems.
+    \item \textbf{Lower cost}: You need less physical hardware and use less electricity.
+\end{itemize}
+
+\section{Main Components of Virtualization}
+There are three main parts in virtualization:
+\begin{enumerate}
+    \item \textbf{Physical Machine (Host)}\\
+    This is your real computer — the actual hardware that has CPU, memory (RAM), storage, and network.
+    \item \textbf{Virtual Machine (VM or Guest)}\\
+    This is a software version of a complete computer. It runs its own operating system (like Ubuntu) inside your physical computer.
+    \item \textbf{Hypervisor}\\
+    This is the special software that creates and manages the virtual machines. It sits between the physical hardware and the virtual machines. It gives each VM the resources it needs (CPU, RAM, disk, etc.).
+\end{enumerate}
+
+\subsection{Types of Hypervisors}
+There are two main types:
+\begin{itemize}
+    \item \textbf{Type 1 Hypervisors (Bare-metal)}:\\
+    These run directly on the physical hardware. They do not need a host operating system. They are fast and powerful. Examples: VMware ESXi, Microsoft Hyper-V (in some modes), KVM.
+    \item \textbf{Type 2 Hypervisors}:\\
+    These run as a normal program on top of your existing operating system (Windows, Linux, or macOS). They are easier to install and good for learning. Examples: Oracle VirtualBox, VMware Workstation Player.
+\end{itemize}
+
+\section{Popular Virtualization Software}
+\textbf{For Windows users}:
+\begin{itemize}
+    \item Oracle VirtualBox (free and recommended for students)
+    \item VMware Workstation Player (free for personal use)
+    \item Microsoft Hyper-V (available in Windows Pro)
+\end{itemize}
+\textbf{For macOS users}:
+\begin{itemize}
+    \item Parallels Desktop
+    \item VMware Fusion
+    \item UTM (free, good for Apple Silicon)
+\end{itemize}
+\textbf{For Linux users}:
+\begin{itemize}
+    \item KVM + QEMU (very efficient)
+    \item Oracle VirtualBox
+\end{itemize}
+
+\section{System Requirements for Running Virtual Machines}
+To run virtual machines smoothly, your computer should meet these requirements:
+\begin{table}[h]
+  \begin{tabular}{ l l }
+    \hline
+    \textbf{Requirement} & \textbf{Description} \\
+    \hline
+    Virtualization Support & CPU must support Intel VT-x or AMD-V (usually enabled in BIOS) \\
+    Processor & 64-bit processor \\
+    Memory (RAM) & At least 8 GB recommended (4 GB minimum) \\
+    Free Disk Space & At least 20 GB (more is better) \\
+    \hline
+  \end{tabular}
+  \caption{System Requirements for Virtualization}
+  \label{tab:uno}
+\end{table}
+\newpage
+\noindent
+\textbf{Important Tip}: You must enable virtualization in your computer's BIOS/UEFI settings.
+Without this, virtual machines will be very slow or may not work.
+
+\section{Installing Ubuntu on a Virtual Machine}
+Step-by-Step Process
+\begin{enumerate}
+    \item \textbf{Download the Ubuntu ISO}\\
+    Go to the official Ubuntu website and download the latest Ubuntu Desktop ISO file.
+    \item \textbf{Install Virtualization Software}\\
+    Install VirtualBox, VMware Workstation Player, or another tool of your choice.
+    \item \textbf{Create a New Virtual Machine}
+    \begin{itemize}
+        \item Choose "Linux" as the type.
+        \item Give it a name.
+        \item Allocate resources:
+        \begin{itemize}
+            \item 2 or more CPU cores
+            \item 4 to 8 GB of RAM
+            \item 20 GB or more virtual hard disk
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{Mount the ISO}\\
+    Attach the downloaded Ubuntu ISO file as the bootable CD/DVD.
+    \item \textbf{Start the VM and Install Ubuntu}
+    \begin{itemize}
+        \item Turn on the virtual machine.
+        \item Choose your language and keyboard.
+        \item Select "Install Ubuntu".
+        \item Use the default partition settings (for beginners).
+        \item Create a username and a strong password.
+    \end{itemize}
+    \item \textbf{Finish Installation}\\
+    After installation is complete, restart the virtual machine and remove the ISO from the virtual CD drive.
+\end{enumerate}
+
+\section{Basic Troubleshooting}
+Here are common problems and their solutions:
+\begin{enumerate}
+    \item \textbf{Installation is very slow}\\
+    \textbf{Solution}: Enable virtualization (VT-x/AMD-V) in BIOS. Increase RAM and CPU cores for the VM.
+    \item \textbf{Black screen after installation}\\
+    \textbf{Solution}: Install VirtualBox Guest Additions or VMware Tools. Enable 3D acceleration if available.
+    \item \textbf{No internet connection inside the VM}\\
+    \textbf{Solution}: Set Network Adapter to \textbf{NAT} mode. Check host firewall if needed.
+    \item \textbf{Not enough disk space}\\
+    \textbf{Solution}: Increase the virtual hard disk size in the VM settings.
+\end{enumerate}
