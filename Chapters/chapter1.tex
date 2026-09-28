@@ -1,7 +1,7 @@
 %----------------------------------------------------------------------------------------
 %	CHAPTER 1
 %----------------------------------------------------------------------------------------
-\chapterimage{ChapterImages/chapter1.jpg} % Chapter heading image
+\chapterimage{ChapterImages/chapter1.png} % Chapter heading image
 
 \chapter{Virtual Machines and Linux Installation}
 
@@ -34,6 +34,13 @@ There are three main parts in virtualization:
     This is the special software that creates and manages the virtual machines. It sits between the physical hardware and the virtual machines. It gives each VM the resources it needs (CPU, RAM, disk, etc.).
 \end{enumerate}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth]{Images/Chapter1/virtualization-architecture.pdf}
+    \caption{Virtualization architecture: each VM runs its own guest OS and applications on top of the hypervisor, which shares the underlying host hardware among them.}
+    \label{fig:virtualization-architecture}
+\end{figure}
+
 \subsection{Types of Hypervisors}
 There are two main types:
 \begin{itemize}
@@ -42,6 +49,23 @@ There are two main types:
     \item \textbf{Type 2 Hypervisors}:\\
     These run as a normal program on top of your existing operating system (Windows, Linux, or macOS). They are easier to install and good for learning. Examples: Oracle VirtualBox, VMware Workstation Player.
 \end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Chapter1/hypervisor-type1.pdf}\\[0.3em]
+        \small (a) Type 1 (bare-metal): the hypervisor runs directly on the hardware.
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Chapter1/hypervisor-type2.pdf}\\[0.3em]
+        \small (b) Type 2 (hosted): the hypervisor runs on top of a host operating system.
+    \end{minipage}
+    \caption{The two hypervisor types differ in what sits between the virtual machines and the physical hardware.}
+    \label{fig:hypervisor-types}
+\end{figure}
 
 \section{Popular Virtualization Software}
 \textbf{For Windows users}:

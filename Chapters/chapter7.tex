@@ -1,6 +1,173 @@
 %----------------------------------------------------------------------------------------
-%	CHAPTER 4
+%	CHAPTER 7
 %----------------------------------------------------------------------------------------
-\chapterimage{head1.png}
+\chapterimage{ChapterImages/chapter7.png} % Chapter heading image
 
-\chapter{Multithreading}
+\chapter{Shell Programming III (Functions)}
+\label{ch:shell3}
+
+With variables, conditionals, and loops from Chapters~\ref{ch:shell1} and~\ref{ch:shell2}, you already have everything needed to write working scripts. The last piece is \textbf{functions} -- a way to package a block of logic under a name, so it can be reused instead of copy-pasted, and so a long script can be organized into clear, testable pieces.
+
+\section{What Is a Function?}
+A function is a named block of code that performs a specific task. It allows you to reuse logic, reduce redundancy, and organize scripts into smaller, manageable parts.
+
+\textbf{Advantages:}
+\begin{itemize}
+    \item Reuse code instead of rewriting it.
+    \item Simplify debugging and maintenance.
+    \item Improve script readability and structure.
+\end{itemize}
+
+\section{Defining Functions}
+Functions in Bash can be declared in two equivalent ways:
+\begin{lstlisting}[language=Terminal]
+#!/bin/bash
+# With the function keyword
+function greet() {
+    echo "Hello, $1!"
+}
+
+# Without the function keyword
+greet() {
+    echo "Hello, $1!"
+}
+\end{lstlisting}
+There is \textbf{no need} to declare argument types or the number of arguments -- unlike C or Python, Bash functions accept any number of arguments of any type (everything is treated as text).
+
+\section{Calling Functions}
+To execute a function, call it by its name followed by any arguments, exactly as you would call any other command:
+\begin{lstlisting}[language=Terminal]
+greet "Ali"
+\end{lstlisting}
+
+\textbf{Syntax:}
+\begin{lstlisting}[language=Terminal]
+function_name arg1 arg2 ...
+\end{lstlisting}
+\textbf{Important:} a function must be \emph{defined} before it is called -- Bash reads the script top to bottom, so calling a function above its definition fails.
+
+\section{Function Arguments}
+Function arguments are accessed using positional parameters, the same special variables also used for script arguments:
+
+\begin{table}[h!]
+\centering
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|>{\centering\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{9cm}|}
+\hline
+\textbf{Symbol} & \textbf{Meaning} \\ \hline
+\texttt{\textdollar0} & Script name \\ \hline
+\texttt{\textdollar1, \textdollar2, \textdollar3, ...} & Function arguments, by position \\ \hline
+\texttt{\textdollar\#} & Number of arguments \\ \hline
+\texttt{\textdollar@} & All arguments, as separate words \\ \hline
+\end{tabular}
+\caption{Special Variables in Shell Scripting}
+\label{tab:special-vars}
+\end{table}
+
+Figure~\ref{fig:function-anatomy} shows how these map onto an actual function call.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\textwidth]{Images/Chapter7/function-anatomy.pdf}
+    \caption{How positional parameters map onto the arguments of a function call.}
+    \label{fig:function-anatomy}
+\end{figure}
+
+\textbf{Example:}
+\begin{lstlisting}[language=Terminal]
+#!/bin/bash
+print_args() {
+    echo "Number of arguments: $#"
+    echo "All arguments: $@"
+}
+print_args 1 2 3
+\end{lstlisting}
+
+\section{Returning Values}
+Functions in Bash \textbf{do not} return values the way functions do in C or Python. There are two common ways to get a result out of a function instead:
+
+\begin{enumerate}
+    \item \textbf{Using \texttt{return} (for an exit status only):} \texttt{return} can only report a small integer (0--255), conventionally used to signal success (\texttt{0}) or failure (any non-zero value) -- not to hand back a computed value.
+\begin{lstlisting}[language=Terminal]
+#!/bin/bash
+check_even() {
+    if (( $1 % 2 == 0 )); then
+        return 0
+    else
+        return 1
+    fi
+}
+
+check_even 4
+echo "Exit status: $?"   # 0 -> even
+\end{lstlisting}
+
+    \item \textbf{Using \texttt{echo} (to send actual output):} to get a real value -- a number, a string, anything -- have the function \texttt{echo} it, and capture that output with command substitution:
+\begin{lstlisting}[language=Terminal]
+#!/bin/bash
+square() {
+    echo $(($1 * $1))
+}
+
+result=$(square 4)
+echo "Result: $result"
+\end{lstlisting}
+\end{enumerate}
+
+\section{Variable Scope}
+Variables inside a function are \textbf{global by default} -- a function can freely read and overwrite a variable defined outside it. Use the \texttt{local} keyword to limit a variable's scope to that function only, so it doesn't leak out or clash with a variable of the same name elsewhere in the script. Figure~\ref{fig:variable-scope} illustrates this with the example below.
+
+\textbf{Example:}
+\begin{lstlisting}[language=Terminal]
+#!/bin/bash
+my_var="global"
+
+change_var() {
+    local my_var="changed inside function"
+    echo $my_var
+}
+
+change_var
+echo $my_var
+\end{lstlisting}
+
+\textbf{Output:}
+\begin{lstlisting}[language=Terminal]
+changed inside function
+global
+\end{lstlisting}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/Chapter7/variable-scope.pdf}
+    \caption{A \texttt{local} variable only shadows the global one for the duration of the function call.}
+    \label{fig:variable-scope}
+\end{figure}
+
+\textbf{Note:} had \texttt{local} been omitted on line~2 of \texttt{change\_var}, the assignment would have overwritten the global \texttt{my\_var}, and the final \texttt{echo \$my\_var} would print \texttt{"changed inside function"} instead of \texttt{"global"}.
+
+\section{Recursive Functions}
+Because a Bash function is just a named command, it is allowed to call \emph{itself} -- this is called \textbf{recursion}. A recursive function needs two things to terminate correctly:
+\begin{itemize}
+    \item A \textbf{base case}: a condition simple enough to answer directly, without another call.
+    \item A \textbf{recursive case}: the function calls itself with an input that moves \emph{closer} to the base case.
+\end{itemize}
+Without a base case (or if the input never actually approaches it), the function calls itself forever until Bash runs out of resources.
+
+\textbf{Example: summing 1 to \texttt{n} recursively}
+\begin{lstlisting}[language=Terminal]
+#!/bin/bash
+sum_to() {
+    local n=$1
+    if (( n <= 1 )); then
+        echo 1              # base case
+    else
+        local rest=$(sum_to $((n - 1)))   # recursive case
+        echo $((n + rest))
+    fi
+}
+
+echo "Sum: $(sum_to 5)"     # Sum: 15
+\end{lstlisting}
+\textbf{Explanation:} \texttt{sum\_to 5} calls \texttt{sum\_to 4}, which calls \texttt{sum\_to 3}, and so on down to \texttt{sum\_to 1} -- the base case, which returns \texttt{1} directly. Each call then adds its own \texttt{n} to the result of the call below it, unwinding back up to the original call.

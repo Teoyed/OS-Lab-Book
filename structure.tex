@@ -356,3 +356,39 @@ innerbottommargin=5pt]{cBox}
 \fi
 }
 \makeatother
+
+
+%----------------------------------------------------------------------------------------
+%	CODE / TERMINAL LISTINGS
+%----------------------------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{fontawesome5} % for \faExclamationTriangle etc.
+
+\definecolor{termbg}{RGB}{25,25,25}
+\definecolor{termtext}{RGB}{230,230,230}
+\definecolor{termcomment}{RGB}{130,130,130}
+
+\lstdefinelanguage{Terminal}{
+  morecomment=[l]{\#},
+  showstringspaces=false,
+}
+
+\lstset{
+  language=Terminal,
+  basicstyle=\ttfamily\small\color{termtext},
+  backgroundcolor=\color{termbg},
+  commentstyle=\color{termcomment}\itshape,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  frame=single,
+  rulecolor=\color{ocre},
+  framesep=6pt,
+  xleftmargin=6pt,
+  xrightmargin=6pt,
+  aboveskip=8pt,
+  belowskip=8pt,
+  literate={\$}{{\textcolor{ocre}{\$}}}1 {\#}{{\textcolor{ocre}{\#}}}1
+}
+
+\usepackage{array} % enables >{...} column modifiers and \arraybackslash
