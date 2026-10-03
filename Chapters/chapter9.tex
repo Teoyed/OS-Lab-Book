@@ -268,32 +268,32 @@ int main() {
     \item Correctness is guaranteed, at the cost of a small performance overhead -- every other thread has to wait its turn instead of running freely. %[cite: 6]
 \end{itemize}
 
-\newpage %[cite: 6]
-\section{Hands-on Tasks} %[cite: 6]
-This assignment should be completed in class and graded by the course instructor or teaching assistants. %[cite: 6]
+% \newpage %[cite: 6]
+% \section{Hands-on Tasks} %[cite: 6]
+% This assignment should be completed in class and graded by the course instructor or teaching assistants. %[cite: 6]
 
-\textbf{Task 1:}\\ %[cite: 6]
-Create two threads. One prints \texttt{"Hello"} and the other prints \texttt{"World"}, 5 times each. %[cite: 6]
-\begin{itemize}
-    \item Each thread should print its message 5 times with a slight delay (\texttt{sleep(1)}). %[cite: 6]
-    \item Ensure \texttt{main} waits for both threads to finish before exiting. %[cite: 6]
-\end{itemize}
+% \textbf{Task 1:}\\ %[cite: 6]
+% Create two threads. One prints \texttt{"Hello"} and the other prints \texttt{"World"}, 5 times each. %[cite: 6]
+% \begin{itemize}
+%     \item Each thread should print its message 5 times with a slight delay (\texttt{sleep(1)}). %[cite: 6]
+%     \item Ensure \texttt{main} waits for both threads to finish before exiting. %[cite: 6]
+% \end{itemize}
 
-\vspace{0.5cm} %[cite: 6]
+% \vspace{0.5cm} %[cite: 6]
 
-\textbf{Task 2:}\\ %[cite: 6]
-Use two threads to compute the sum of two halves of a given array, then compute the total sum in \texttt{main}. %[cite: 6]
-\begin{itemize}
-    \item Split the array into two (roughly equal) halves and give each thread its own start index and length -- for example, by passing a small \texttt{struct} to each thread via \texttt{pthread\_create}'s argument pointer. %[cite: 6]
-    \item Have each thread store its partial sum somewhere \texttt{main} can read after joining both threads (e.g.\ through that same struct, or a return value passed via \texttt{pthread\_exit}). %[cite: 6]
-\end{itemize}
+% \textbf{Task 2:}\\ %[cite: 6]
+% Use two threads to compute the sum of two halves of a given array, then compute the total sum in \texttt{main}. %[cite: 6]
+% \begin{itemize}
+%     \item Split the array into two (roughly equal) halves and give each thread its own start index and length -- for example, by passing a small \texttt{struct} to each thread via \texttt{pthread\_create}'s argument pointer. %[cite: 6]
+%     \item Have each thread store its partial sum somewhere \texttt{main} can read after joining both threads (e.g.\ through that same struct, or a return value passed via \texttt{pthread\_exit}). %[cite: 6]
+% \end{itemize}
 
-\vspace{0.5cm} %[cite: 6]
+% \vspace{0.5cm} %[cite: 6]
 
-\textbf{Task 3:}\\ %[cite: 6]
-Create 5 threads that each increment a shared counter 1000 times, using a \texttt{mutex} for synchronization.\\ %[cite: 6]
-\textbf{Objective:} understand race conditions and synchronization with \texttt{pthread\_mutex\_t}. %[cite: 6]
-\begin{itemize}
-    \item It makes sense to use a global counter variable, protected by a global mutex. %[cite: 6]
-    \item At the end, print the final value (it should be exactly 5000). %[cite: 6]
-\end{itemize}
+% \textbf{Task 3:}\\ %[cite: 6]
+% Create 5 threads that each increment a shared counter 1000 times, using a \texttt{mutex} for synchronization.\\ %[cite: 6]
+% \textbf{Objective:} understand race conditions and synchronization with \texttt{pthread\_mutex\_t}. %[cite: 6]
+% \begin{itemize}
+%     \item It makes sense to use a global counter variable, protected by a global mutex. %[cite: 6]
+%     \item At the end, print the final value (it should be exactly 5000). %[cite: 6]
+% \end{itemize}

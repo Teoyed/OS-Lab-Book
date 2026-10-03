@@ -473,25 +473,25 @@ Unlike standard pipes, sockets natively enable \textbf{simultaneous} and \textbf
 
 \textbf{Note:} full socket programming (writing a working client and server) involves enough networking background to deserve its own dedicated lab; this section is here so the vocabulary and function names above are recognizable when you get there, and so you can see where sockets fit relative to every other IPC mechanism in this chapter.
 
-\newpage
-\section{Hands-on Tasks}
-This assignment should be completed in class and graded by the course instructor or teaching assistants.
+% \newpage
+% \section{Hands-on Tasks}
+% This assignment should be completed in class and graded by the course instructor or teaching assistants.
 
-\textbf{Task 1: Pipes}\\
-Write a program using \texttt{pipe()} and \texttt{fork()} where the child sends a sentence to the parent, and the parent prints the sentence with every word reversed.
+% \textbf{Task 1: Pipes}\\
+% Write a program using \texttt{pipe()} and \texttt{fork()} where the child sends a sentence to the parent, and the parent prints the sentence with every word reversed.
 
-\vspace{0.4cm}
-\textbf{Task 2: FIFOs}\\
-Write two separate programs, \texttt{writer.c} and \texttt{reader.c}, that communicate through a named pipe called \texttt{/tmp/lab\_fifo}. Run them in two different terminals and confirm the message transfers correctly.
+% \vspace{0.4cm}
+% \textbf{Task 2: FIFOs}\\
+% Write two separate programs, \texttt{writer.c} and \texttt{reader.c}, that communicate through a named pipe called \texttt{/tmp/lab\_fifo}. Run them in two different terminals and confirm the message transfers correctly.
 
-\vspace{0.4cm}
-\textbf{Task 3: Message Queues}\\
-Extend the message queue example so the parent sends two messages with different \texttt{mtype} values, and the child receives only the message of one specific type -- printing which one it got.
+% \vspace{0.4cm}
+% \textbf{Task 3: Message Queues}\\
+% Extend the message queue example so the parent sends two messages with different \texttt{mtype} values, and the child receives only the message of one specific type -- printing which one it got.
 
-\vspace{0.4cm}
-\textbf{Task 4: Shared Memory}\\
-Write a shared-memory program where the parent writes an array of 10 integers, and the child reads the array and prints their sum. Use \texttt{sleep()} in the child to ensure the parent writes first, as in the example.
+% \vspace{0.4cm}
+% \textbf{Task 4: Shared Memory}\\
+% Write a shared-memory program where the parent writes an array of 10 integers, and the child reads the array and prints their sum. Use \texttt{sleep()} in the child to ensure the parent writes first, as in the example.
 
-\vspace{0.4cm}
-\textbf{Task 5: Signals}\\
-Write a program that registers a handler for \texttt{SIGUSR1} and increments a counter each time the signal is received, printing the new count. From another terminal, send it the signal several times with \texttt{kill -SIGUSR1 <PID>} and confirm the count increases correctly.
+% \vspace{0.4cm}
+% \textbf{Task 5: Signals}\\
+% Write a program that registers a handler for \texttt{SIGUSR1} and increments a counter each time the signal is received, printing the new count. From another terminal, send it the signal several times with \texttt{kill -SIGUSR1 <PID>} and confirm the count increases correctly.
