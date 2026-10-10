@@ -443,3 +443,90 @@ $ getent group groupname
 \end{lstlisting}
     \textbf{Tip:} \texttt{groups username} and \texttt{id username} are quick ways to see which groups a user currently belongs to.
 \end{enumerate}
+
+\section{Hands-on Practices}
+Bellow you see a list of tasks. Complete the tasks using the Linux terminal and record the commands you use. Where requested, explain the results of your commands.
+
+\subsection{Exercise 1: Build and manage a project directory}
+Create the following directory structure inside your home directory:
+
+\begin{lstlisting}[language=bash]
+os-lab/
+|-- documents/
+| |-- report.txt
+|  -- notes.txt
+|-- scripts/
+ -- backup/
+\end{lstlisting}
+
+Complete the following tasks:
+\begin{enumerate}
+	\item Create the directory structure, including all required subdirectories.
+	\item Create report.txt, notes.txt, and file named todo.txt inside scripts/.
+	\item Rename notes.txt to meeting-notes.txt.
+	\item Copy report.txt into backup/.
+	\item Move todo.txt from scripts/ to documents/.
+	\item Create an empty directory named empty-dir/ and remove it.
+	\item Display the final directory tree or an equivalent recursive listing to verify your work.
+\end{enumerate}
+
+Now, answer the following questions:
+\begin{itemize}
+	\item What is the difference between copying and moving a file? \item Why does \texttt{rmdir} fail when a directory is not empty? \item What happens if you copy a file to a destination where a file with the same name already exists?
+\end{itemize}
+
+\subsection{Exercise 2: Investigate File Information and Hidden Files}
+Perform the following tasks inside your \texttt{os-lab/} directory:
+\begin{enumerate}
+	\item Create three text files named \texttt{data1.txt}, \texttt{data2.txt}, and \texttt{data3.txt}, and one file named \texttt{README}.
+	\item Add different lines of text to the three \texttt{.txt} files. Ensure that the files contain different numbers of lines.
+	\item Create a hidden file named \texttt{.lab-config}. \item List the directory contents normally and then list them again, including hidden files.
+	\item Display a detailed listing containing file permissions, ownership, file sizes, and modification times.
+	\item Copy all \texttt{.txt} files into the \texttt{backup/} directory using a wildcard.
+	\item Display the number of lines in each \texttt{.txt} file and identify which file contains the most lines. \end{enumerate}
+	
+Now, answer the following questions:
+\begin{itemize}
+	\item Why is \texttt{.lab-config} not displayed by a normal directory listing?
+	\item What information can you obtain from a long-format directory listing?
+	\item How does the shell expand \texttt{*.txt} before executing a command?
+\end{itemize}
+
+\subsection{Exercise 3: Create and Manage Users and Groups}
+
+Create two temporary users named \texttt{Amir} and \texttt{Reza}, each with a home directory and Bash as the login shell. Then complete the following tasks:
+\begin{enumerate}
+	\item Create a group named \texttt{osproject}.
+	\item Add both users to \texttt{osproject} as supplementary-group members.
+	\item Verify that both users exist. Inspect their UIDs, primary GIDs, home directories, and supplementary groups.
+	\item Set passwords for the accounts if required by your instructor.
+	\item Remove \texttt{Reza} from \texttt{osproject} and verify the change.
+	\item Restore \texttt{Reza}'s membership in \texttt{osproject} if necessary for Exercise~4.
+	\item At the end of the lab, remove the temporary users and group after verifying that you are deleting only the accounts and group created for this exercise.
+\end{enumerate}
+Now, answer the following questions:
+\begin{itemize}
+	\item What is the difference between \texttt{useradd} and \texttt{groupadd}?
+	\item Why might a user need to log out and log back in before newly assigned supplementary-group membership is reflected in an existing session?
+	\item What is the difference between deleting a user and deleting a user together with their home directory?
+\end{itemize}
+
+\subsection{Exercise 4: Set Up a Shared Project Directory}
+Assume that \texttt{Amir} and \texttt{Reza} are members of the supplementary group \texttt{osproject}. \begin{enumerate}
+	\item Create a shared directory named \texttt{/srv/osproject}.
+	\item Set its group ownership to \texttt{osproject}.
+	\item Configure its permissions so that the owner and group can access the directory, while other users have no access.
+	\item Configure the directory so that new files and subdirectories inherit the \texttt{osproject} group.
+	\item As \texttt{Amir}, create a file named \texttt{shared.txt} in the directory and add some text to it.
+	\item As \texttt{Reza}, verify that you can read and modify \texttt{shared.txt}.
+	\item As \texttt{Reza}, create a second file in the shared directory.
+	\item Inspect the ownership and permissions of the directory and both files. Explain any differences you observe.
+	\item Attempt to access the directory as an unrelated ordinary user, if one is available in the lab, and verify that access is denied.
+	\item Explain how you would modify the configuration if project members should be able to read and modify project files while unrelated users should retain read-only access.
+\end{enumerate}
+Now, answer the following questions:
+\begin{itemize}
+	\item What is the difference between file ownership and group ownership?
+	\item Why might group write permission on a directory be necessary even if users can write to an existing file?
+	\item Does setting the setgid bit on a directory automatically make every new file group-writable?
+\end{itemize}
