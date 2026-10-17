@@ -120,3 +120,77 @@ $ setfacl -dm u:username:rwx dir/
 
 \section*{Important Notes}
 Any command that modifies system files or user/group settings usually \textbf{requires} \texttt{sudo} -- this includes \texttt{groupadd}, \texttt{useradd}, \texttt{setfacl}, \texttt{chown}, and \texttt{chmod} on files you do not own. Read-only commands such as \texttt{getfacl}, \texttt{ls}, \texttt{groups}, and \texttt{id} do \textbf{not} require \texttt{sudo}, unless the target file's permissions already block your user from reading it.
+
+\section{Hands-on Practices}
+Below you see a list of tasks. Complete the tasks using the Linux terminal and record the commands you use. Where requested, explain the results of your commands.
+
+\subsection{Exercise 1: Change File Permissions Using Symbolic and Octal Modes}
+Perform the following tasks inside your \texttt{os-lab/} directory (create it in your home directory if it does not already exist):
+\begin{enumerate}
+	\item Create three empty files named \texttt{script.sh}, \texttt{notes.txt}, and \texttt{secret.txt}.
+	\item Display the current permissions of all three files using \texttt{ls -l}.
+	\item Using \textbf{symbolic mode}, add execute (\texttt{x}) permission for the owner on \texttt{script.sh}.
+	\item Using \textbf{symbolic mode}, remove write (\texttt{w}) permission for the group on \texttt{notes.txt} and set others' permission to read-only (\texttt{o=r}).
+	\item Using \textbf{octal mode}, set the permissions of \texttt{secret.txt} to \texttt{600} so that only the owner can read and write it.
+	\item Set \texttt{script.sh} to \texttt{754} using octal mode and verify the permissions of all three files with \texttt{ls -l}.
+\end{enumerate}
+
+Now, answer the following questions:
+\begin{itemize}
+	\item What do the permissions \texttt{r}, \texttt{w}, and \texttt{x} allow on a regular file versus a directory?
+	\item What is the difference between the \texttt{+}, \texttt{-}, and \texttt{=} operators in symbolic \texttt{chmod} mode?
+	\item What permissions does \texttt{chmod 754} grant to the owner, group, and other users?
+\end{itemize}
+
+\subsection{Exercise 2: Change File and Group Ownership}
+Assume that the users \texttt{Amir} and \texttt{Reza} and the group \texttt{osproject} from Chapter~\ref{ch:users-groups} exist on your system (create them first if needed). Then complete the following tasks inside \texttt{os-lab/}:
+\begin{enumerate}
+	\item Create a file named \texttt{project-plan.txt} and inspect its current owner and group with \texttt{ls -l}.
+	\item Change the owner of \texttt{project-plan.txt} to \texttt{Amir} using \texttt{chown}.
+	\item Change only the group of \texttt{project-plan.txt} to \texttt{osproject} using \texttt{chgrp}.
+	\item Change both the owner and group of \texttt{notes.txt} to \texttt{Reza} and \texttt{osproject} in a single \texttt{chown} command.
+	\item Run \texttt{ls -l} to verify the updated owner and group for both files.
+\end{enumerate}
+
+Now, answer the following questions:
+\begin{itemize}
+	\item What is the difference between \texttt{chown} and \texttt{chgrp}?
+	\item How do you change both the owner and the group of a file in a single command?
+	\item Why do \texttt{chown} and \texttt{chgrp} usually require \texttt{sudo}?
+\end{itemize}
+
+\subsection{Exercise 3: Work with Special Permissions (SGID and Sticky Bit)}
+Assume that \texttt{Amir} and \texttt{Reza} are both members of the \texttt{osproject} group. Complete the following tasks:
+\begin{enumerate}
+	\item Inspect the permissions of \texttt{/tmp} using \texttt{ls -ld /tmp} and observe the Sticky Bit (\texttt{t}) at the end of the permission string.
+	\item Create a shared directory named \texttt{/srv/shared-lab} and change its group ownership to \texttt{osproject}.
+	\item Set the permissions of \texttt{/srv/shared-lab} to \texttt{2770} so that the owner and group have full access and the \textbf{SGID} bit is enabled.
+	\item As \texttt{Amir}, create a file named \texttt{amir.txt} inside \texttt{/srv/shared-lab} and check with \texttt{ls -l} that it automatically inherited the \texttt{osproject} group.
+	\item Enable the \textbf{Sticky Bit} on \texttt{/srv/shared-lab} (for example, using \texttt{chmod 3770 /srv/shared-lab}) and check the directory permissions with \texttt{ls -ld}.
+	\item As \texttt{Reza}, try to delete \texttt{amir.txt} and verify that the Sticky Bit prevents you from deleting a file owned by another user.
+\end{enumerate}
+
+Now, answer the following questions:
+\begin{itemize}
+	\item What happens when a user runs an executable file that has the SUID bit set?
+	\item Why is setting the SGID bit useful on a shared team directory?
+	\item How does the Sticky Bit protect files inside a shared directory such as \texttt{/tmp}?
+\end{itemize}
+
+\subsection{Exercise 4: Grant Specific Access Using ACLs}
+Perform the following tasks inside your \texttt{os-lab/} directory:
+\begin{enumerate}
+	\item Create a file named \texttt{report.txt} and view its initial ACL entries using \texttt{getfacl}.
+	\item Use \texttt{setfacl} to grant the user \texttt{Amir} read, write, and execute (\texttt{rwx}) permissions on \texttt{report.txt}.
+	\item Use \texttt{setfacl} to grant the group \texttt{osproject} read-only (\texttt{r--}) permission on \texttt{report.txt}.
+	\item Run \texttt{getfacl report.txt} to verify that both ACL entries were added.
+	\item Set a \textbf{default ACL} on the \texttt{os-lab/} directory so that \texttt{Amir} automatically gets \texttt{rwx} permissions on any new file created inside it, then create \texttt{newfile.txt} and check its ACL with \texttt{getfacl}.
+	\item Remove \texttt{Amir}'s ACL entry from \texttt{report.txt} using \texttt{setfacl -x}, and then remove all ACL entries from \texttt{report.txt} using \texttt{setfacl -b}.
+\end{enumerate}
+
+Now, answer the following questions:
+\begin{itemize}
+	\item Why are ACLs useful when standard owner, group, and other permissions are not enough?
+	\item What is the difference between \texttt{setfacl -m} and \texttt{setfacl -dm}?
+	\item What is the difference between \texttt{setfacl -x} and \texttt{setfacl -b}?
+\end{itemize}
