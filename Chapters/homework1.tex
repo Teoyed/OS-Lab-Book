@@ -1,0 +1,141 @@
+% Take-home homework covering Chapters 2, 3, and 4.
+
+\chapter{Homework 1: Chapters 2, 3, and 4}
+\label{ch:homework-ch2-ch3-ch4}
+
+\section{Scenario}
+A small operations team needs a Linux workspace for investigating a fictional service incident. The workspace must be organized, shared safely between team members, and used to turn raw text records into a short incident report. Your task is to build and verify the complete workflow using the concepts from Chapters~2, 3, and~4.
+
+This is a take-home project, not a guided practice. Choose appropriate commands from the chapters, record the commands you use, and explain the results. Do not simply submit a list of commands without evidence that they worked.
+
+\section{Environment and Safety Requirements}
+\begin{itemize}
+    \item Complete the assignment inside your own Linux virtual machine. The tasks create system users and groups and require administrative privileges. Do not perform them on your primary computer's host operating system, a shared university server, or any machine you do not administer.
+    \item You will need \texttt{sudo}. The ACL tasks also require the \texttt{getfacl} and \texttt{setfacl} utilities; install the relevant ACL package in your VM if these commands are unavailable.
+    \item Use the names \texttt{hw\_handover}, \texttt{hw\_writer}, \texttt{hw\_auditor}, and \texttt{hw\_guest} throughout the assignment. Check that they do not already exist. If a name is already in use, add the same short suffix to the affected name and use that replacement consistently.
+    \item Do not delete or modify system files such as \texttt{/etc/passwd} or \texttt{/etc/shadow} manually. Use the appropriate Linux administration commands.
+\end{itemize}
+
+\section{Create and Organize the Workspace}
+
+Create the project directory \texttt{/srv/handover-lab} with the following structure:
+
+\begin{lstlisting}[language=Terminal]
+/srv/handover-lab/
+|-- incoming/
+|   |-- events.log
+|   |-- operator-notes.txt
+|   `-- backup/
+|-- reports/
+|-- dropbox/
+|-- private/
+|-- public/
+`-- .handover-policy
+\end{lstlisting}
+
+Complete the following requirements:
+\begin{enumerate}
+    \item Create the directories and files. Put the supplied event records listed below into \texttt{incoming/events.log}. Create \texttt{operator-notes.txt} using Nano and enter the note text listed below.
+    \item Create the hidden file \texttt{.handover-policy}. It must contain three lines describing the retention period, the person responsible for preparing reports, and the person responsible for reviewing them.
+    \item Make a backup copy of \texttt{events.log} in \texttt{incoming/backup/}. Keep the original file unchanged during the later analysis.
+    \item Use ordinary and detailed directory listings to verify the structure. Demonstrate why the hidden policy file is absent from an ordinary listing but visible when hidden files are included.
+    \item Record the filesystem type and mount information for the filesystem containing \texttt{/srv/handover-lab}. Include the relevant output from \texttt{df -Th} in your evidence.
+\end{enumerate}
+
+\subsection{Configure Team Accounts and Access}
+
+The workspace has three roles:
+\begin{itemize}
+    \item \texttt{hw\_writer}: creates and updates incident material.
+    \item \texttt{hw\_auditor}: reviews reports and may read the restricted incident details, but must not modify them.
+    \item \texttt{hw\_guest}: may read the public summary only; this account must not be a member of \texttt{hw\_handover}.
+\end{itemize}
+
+Configure the accounts, group, directories, and files so that all of the following conditions are true. You must select the appropriate commands and permission values yourself.
+
+\begin{enumerate}
+    \item Create the group \texttt{hw\_handover} and the three user accounts, each with a home directory and Bash as the login shell. Add the writer and auditor to \texttt{hw\_handover}; do not add the guest to that group. Verify the memberships using account and group inspection commands.
+    \item Set group ownership and permissions on \texttt{incoming/} and \texttt{reports/} so that the writer and auditor can access and modify their contents, while unrelated users have no access. New files and subdirectories created there must inherit the project group. For collaborative files, ensure the group has write permission where required; the SGID bit does not automatically make files group-writable. Create a test file as the writer and demonstrate that the auditor can update it.
+    \item Configure \texttt{dropbox/} as a shared drop-off directory. Both writer and auditor must be able to create files in it, new items must inherit the project group, and one team member must not be able to delete or rename another team member's files merely because they share the directory.
+    \item Configure \texttt{public/} so that the guest can read \texttt{public/summary.txt} but cannot modify it. The guest must not be able to write to the other project directories.
+    \item Configure \texttt{private/} so that \texttt{hw\_writer} owns and can modify \texttt{private/incident-details.txt}. Create this file as the writer and include a short fictional internal note based on the log; do not include real personal information. The auditor must be able to read that file but must not be able to modify it. The guest must be denied access. Use an ACL for the auditor's file-level permission and verify it with \texttt{getfacl}.
+    \item Verify the behavior by attempting the relevant operations as the specified accounts. In particular, demonstrate that the auditor can read but cannot edit the restricted file, that the guest is denied access to it, and that the guest can read but cannot write the public summary. Also test the shared-directory deletion rule with a file created by the writer and a deletion attempt by the auditor.
+\end{enumerate}
+
+Your evidence must include the relevant output from \texttt{id} or equivalent account-inspection commands, detailed permission listings, the ACL for the restricted file, and the results of the access tests. A permission listing alone is not enough; verify actual access as each role.
+
+\subsection{Investigate the Event Log and Process Text}
+
+Create \texttt{incoming/events.log} with the following 15 fictional records. Keep the field order unchanged: date, time, level, service, and message, separated by the vertical-bar character.
+
+\begin{lstlisting}[language=Terminal]
+2026-10-20|09:00:02|INFO|auth|login accepted for user=ali
+2026-10-20|09:02:14|WARN|gateway|response delay reached 1.8 seconds
+2026-10-20|09:03:05|ERROR|storage|write failed on volume=v2
+2026-10-20|09:04:33|INFO|scheduler|job queued id=H100
+2026-10-20|09:07:19|ERROR|gateway|upstream connection refused
+2026-10-20|09:08:41|WARN|auth|repeated login attempt detected
+2026-10-20|09:09:12|ERROR|storage|read failed on block=7
+2026-10-20|09:12:06|INFO|network|link state stable
+2026-10-20|09:14:28|ERROR|auth|token validation failed
+2026-10-20|09:16:53|WARN|storage|disk usage reached 80 percent
+2026-10-20|09:19:07|ERROR|gateway|request timeout after 4 seconds
+2026-10-20|09:22:31|ERROR|scheduler|job H104 failed with code 5
+2026-10-20|09:24:09|WARN|gateway|response delay reached 2.1 seconds
+2026-10-20|09:28:44|ERROR|auth|token validation failed
+2026-10-20|09:30:10|INFO|storage|health check completed
+\end{lstlisting}
+
+Create \texttt{incoming/operator-notes.txt} with Nano and the following content:
+
+\begin{lstlisting}[language=Terminal]
+NIGHT SHIFT HANDOVER
+STATUS: OPEN
+Temporary note: TEMP cache cleared after gateway timeout.
+STATUS: pending review
+Temporary note: TEMP diagnostic files must be retained.
+Action: review gateway latency and storage errors.
+\end{lstlisting}
+
+Then complete these tasks:
+\begin{enumerate}
+    \item Inspect the event log using suitable viewing and counting commands. Search for all error records, count the warning records, and search for the timeout message without relying on its letter case. Preserve the matching output in files under \texttt{reports/}.
+    \item Build a pipeline that extracts the service field from error records, groups identical service names, counts them, and saves the summary as \texttt{reports/errors-by-service.txt}. Your pipeline must use \texttt{grep}, \texttt{cut}, \texttt{sort}, and \texttt{uniq}. Do not manually type the counts into the result file.
+    \item Use \texttt{sed} to replace each occurrence of the uppercase text \texttt{TEMP} with \texttt{ARCHIVED} in the operator notes. Save the transformed result as \texttt{reports/cleaned-notes.txt}; do not alter the original notes.
+    \item Use redirection to save the records containing \texttt{ERROR} as \texttt{reports/errors.log}. Use \texttt{wc} to record the number of lines in the original event log and the extracted error file.
+\end{enumerate}
+
+\subsection{Write, Review, and Publish the Handover Report}
+
+Use Nano to create \texttt{reports/incident-report.txt}. The report must contain:
+\begin{itemize}
+    \item A concise statement of the incident being investigated.
+    \item The number of error and warning records found.
+    \item The service or services with the highest error count, supported by the generated summary file.
+    \item The timeout evidence and the relevant log line number.
+    \item One limitation of drawing conclusions from a small, fictional log sample.
+\end{itemize}
+
+Next, open the report in Vim and make a meaningful revision after checking your own analysis. The revision must be visible in the final file; record which Vim operation you used. Save the final report and verify its contents in the terminal.
+
+Create \texttt{public/summary.txt} as a short version of the incident report. It may contain general findings, but it must not contain the restricted incident details. Set its permissions so the guest can read it but cannot change it. Move or rename any temporary report draft as appropriate so that the final report has a clear, unambiguous filename.
+
+\section{Explanation and Submission Checklist}
+
+Answer each question in your own words:
+\begin{enumerate}
+    \item Explain the difference between the SGID bit and the Sticky Bit on a shared directory. Which requirement in this assignment depends on each one?
+    \item Why is an ACL appropriate for granting the auditor read-only access to the restricted file? Why is membership in the project group alone not sufficient to meet the private-directory requirement?
+    \item Explain the difference between \texttt{>} and \texttt{>>}, and why \texttt{sort} is normally used before \texttt{uniq -c} in the service-counting pipeline.
+    \item Explain the difference between read and execute permission on a directory. Refer to one access test from your workspace.
+\end{enumerate}
+
+Submit one ZIP archive containing:
+\begin{itemize}
+    \item The final project files and generated analysis files, including \texttt{errors.log}, \texttt{errors-by-service.txt}, \texttt{cleaned-notes.txt}, \texttt{incident-report.txt}, and \texttt{public/summary.txt}.
+    \item A plain-text record of the commands you used. Include commands that show the final ownership, permissions, and ACL; do not include passwords or other secrets.
+    \item Evidence of the successful and denied access tests for the writer, auditor, and guest, plus the output of \texttt{df -Th} for the workspace filesystem.
+    \item Your answers to the four explanation questions.
+\end{itemize}
+
+Do not submit only screenshots or only command text. Include the relevant outputs and final files so the results can be checked. Do not remove the test accounts or workspace until your instructor has confirmed that the submission is complete.
