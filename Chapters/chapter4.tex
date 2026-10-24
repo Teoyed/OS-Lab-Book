@@ -98,13 +98,18 @@ $ vim filename.txt
 
 \textbf{Basic Commands:}
 \begin{itemize}
-    \item Press \texttt{i} --- enter Insert Mode to start editing.
+    \item Press \texttt{i} --- enter Insert Mode to start editing before the current character.
+    \item Press \texttt{o} in Normal Mode --- open a new line below the current line and enter Insert Mode.
+    \item Press \texttt{G} in Normal Mode --- move to the last line of the file.
     \item Press \texttt{Esc} --- return to Normal Mode.
-    \item Type \texttt{:w} --- save the file.
-    \item Type \texttt{:q} --- quit Vim.
-    \item Type \texttt{:wq} --- save and quit.
-    \item Type \texttt{:q!} --- quit without saving.
+    \item Type \texttt{/word} and press Enter --- search forward for \texttt{word}; press \texttt{n} to move to the next match.
+    \item Type \texttt{:s/old/new/g} --- replace every occurrence of \texttt{old} with \texttt{new} on the current line.
+    \item Type \texttt{:\%s/old/new/g} --- replace every occurrence throughout the file.
+    \item Type \texttt{:w} --- save the file; \texttt{:q} --- quit Vim.
+    \item Type \texttt{:wq} --- save and quit; \texttt{:q!} --- quit without saving.
 \end{itemize}
+\textbf{Example:} To change every occurrence of \texttt{OPEN} to \texttt{REVIEWED}, type \texttt{:\%s/OPEN/REVIEWED/g} in Command Mode and press Enter.
+
 \texttt{vim} is efficient for editing large files, programming, and automating repetitive edits.
 
 \subsection{Using Gedit}
@@ -276,3 +281,45 @@ $ grep "ERROR" log.txt | sort | uniq -c > result.txt
     \item Sorts and counts them
     \item Saves the output to \texttt{result.txt}
 \end{itemize}
+
+
+%----------------------------------------------------------------------------------------
+% HANDS-ON PRACTICES
+%----------------------------------------------------------------------------------------
+\section{Hands-on Practices}
+Complete the following three practices using the Linux terminal. Record the commands you use, save your edited files, and keep all original practice data unchanged. The downloadable dataset is required only for Practices 2 and 3.
+
+\subsection{Practice 1: Create and Edit a Text File}
+Work in your \texttt{os-lab/} directory. This practice does not require the downloadable dataset.
+\begin{enumerate}
+    \item Create a directory named \texttt{chapter4-practice}, move into it, and create \texttt{incident-note.txt} using \texttt{>} and \texttt{>>}. Include the title \texttt{INCIDENT REPORT}, the line \texttt{Status: OPEN}, the line \texttt{Service: web}, and a line describing the next action.
+    \item Open \texttt{incident-note.txt} with \texttt{nano}. Change \texttt{Status: OPEN} to \texttt{Status: IN PROGRESS}, add an \texttt{Owner:} line with your initials, then save and exit. Verify the changes in the terminal.
+    \item Open the same file with \texttt{vim}. Type \texttt{:\%s/IN PROGRESS/REVIEWED/g} and press Enter to replace the status. Then press \texttt{G}, press \texttt{o}, type a new line beginning \texttt{Follow-up:}, press \texttt{Esc}, and save and quit with \texttt{:wq}.
+    \item Display the final file and use \texttt{wc} to count its lines, words, and characters.
+\end{enumerate}
+
+In your lab notes, explain the difference between \texttt{>} and \texttt{>>}, and identify one difference between editing with Nano and Vim.
+
+\subsection{Practice 2: Investigate a Service Log}
+Download and extract the practice archive, then read \texttt{README.txt}. The dataset is available here:
+\begin{center}
+    \href{https://github.com/Teoyed/OS-Lab-Book/raw/refs/heads/main/Resources/chapter4-text-lab-data.zip}{\textbf{Download the Chapter 4 text-file data (ZIP)}}
+\end{center}
+Work with the extracted files and create a directory named \texttt{results/}. Do not modify the original files.
+\begin{enumerate}
+    \item Inspect \texttt{service.log} using \texttt{head}, \texttt{tail}, and \texttt{wc -l}.
+    \item Count the lines containing \texttt{ERROR} and \texttt{WARN}; then search for \texttt{timeout} without regard to letter case and display the matching line numbers.
+    \item Use a pipeline with \texttt{grep}, \texttt{cut}, \texttt{sort}, and \texttt{uniq -c} to count errors by service, and save the result as \texttt{results/error-counts.txt}. Then use \texttt{nano} to create \texttt{results/log-observations.txt}, recording which service has the highest error count and one observation from the log. Save the file and verify both outputs.
+\end{enumerate}
+
+In your lab notes, explain what \texttt{grep -i} does and why \texttt{sort} is used before \texttt{uniq -c}.
+
+\subsection{Practice 3: Summarize and Clean Text Data}
+Continue using the downloaded files and save all generated files in \texttt{results/}. Keep the originals unchanged.
+\begin{enumerate}
+    \item Use \texttt{tickets.csv} to count tickets by priority and by status, excluding the header row. Save both summaries, with clear headings, in \texttt{results/ticket-summary.txt}.
+    \item Use \texttt{sed} to replace uppercase \texttt{TEMP} with \texttt{ARCHIVED} in \texttt{raw\_notes.txt}, saving the result as \texttt{results/cleaned-notes.txt}. Then convert the words in \texttt{words.txt} to lowercase, sort them, count repeated words, and save the result as \texttt{results/word-counts.txt}.
+    \item Use \texttt{nano} to create \texttt{results/incident-summary.txt}. Include the exact phrase \texttt{most common status}, the service with the highest error count, and one limitation of drawing conclusions from these sample files. Save and exit Nano, then open the report in \texttt{vim} and type \texttt{:\%s/most common status/most frequent status/g} to replace that phrase throughout the report. Save, quit, and display the final report.
+\end{enumerate}
+
+Be prepared to change one search in your command sequence (for example, from \texttt{ERROR} to \texttt{WARN}) and explain how the result changes.
