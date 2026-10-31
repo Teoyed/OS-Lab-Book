@@ -29,7 +29,7 @@ The source is written in LaTeX. Install a LaTeX distribution such as TeX Live
 with the packages used by the document, then run from the repository root:
 
 ```sh
-latexmk -pdf main.tex
+pdflatex main.tex
 ```
 
 This generates `main.pdf`. To remove auxiliary build files afterward, run:
