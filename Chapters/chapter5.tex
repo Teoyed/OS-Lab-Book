@@ -306,3 +306,61 @@ fi
     \item \texttt{n1 -ge n2} --- \texttt{n1} is greater than or equal to \texttt{n2}
 \end{itemize}
 
+%----------------------------------------------------------------------------------------
+%	CHAPTER 5 - HANDS-ON PRACTICES (append at the end of chapter5.tex)
+%----------------------------------------------------------------------------------------
+
+\section{Hands-on Practices}
+Complete the following three practices using the Linux terminal. Record the commands you use, save your scripts, and explain the results where requested. Work inside your \texttt{os-lab/} directory.
+
+\subsection{Practice 1: Your First Scripts, Variables, and Arithmetic}
+This practice covers shells, running scripts, variables, arithmetic, and the \texttt{declare} command.
+
+\begin{enumerate}
+    \item Create a directory named \texttt{chapter5-practice} and move into it. Display the contents of \texttt{/etc/shells} and find out which shell you are currently using.
+    \item Create a script named \texttt{info.sh} that starts with a shebang line, contains one comment, and prints a greeting using \texttt{\$USER} and the current date using \texttt{\$(date)}. Run it first with \texttt{bash info.sh}, then make it executable with \texttt{chmod} and run it as \texttt{./info.sh}.
+    \item Create a second script named \texttt{vars.sh} that does the following:
+    \begin{itemize}
+        \item assigns \texttt{x=4} and prints it, and also prints a variable that was never defined;
+        \item calculates \texttt{y = x + 1} three times, once with \texttt{(( ))}, once with \texttt{let}, and once with \texttt{declare -i}, and prints each result;
+        \item creates an uppercase variable (\texttt{declare -u}), a lowercase variable (\texttt{declare -l}), and a read-only variable (\texttt{declare -r}), prints them, and then tries to change the read-only variable.
+    \end{itemize}
+\end{enumerate}
+
+Now, answer the following questions:
+\begin{itemize}
+    \item What is the difference between interactive and non-interactive mode? Which mode was used when you ran \texttt{info.sh}?
+    \item What is the purpose of the shebang line, and why are spaces not allowed around the \texttt{=} sign in an assignment?
+    \item What did the undefined variable print, and what happened when you tried to modify the read-only variable?
+\end{itemize}
+
+\subsection{Practice 2: Working with Arrays}
+This practice covers creating, extending, and accessing arrays.
+
+\begin{enumerate}
+    \item Create a script named \texttt{arrays.sh}. In it, create an array \texttt{colors} by assigning the elements \texttt{red}, \texttt{green}, and \texttt{blue} one at a time using their indexes. Create an array \texttt{numbers} containing \texttt{10 20 30 40} in a single assignment, and then add \texttt{yellow} to the end of \texttt{colors} using \texttt{+=}.
+    \item Print all elements of \texttt{colors} using both \texttt{\$\{colors[*]\}} and \texttt{\$\{colors[@]\}}, then print the first element of \texttt{colors} and the third element of \texttt{numbers}.
+    \item Create the array \texttt{letters} using \texttt{\{a..e\}}, an array \texttt{evens} from $10$ to $50$ in steps of $10$ using \texttt{seq}, and an array \texttt{countdown} from $100$ down to $20$ in steps of $-5$ using \texttt{seq}. Print all of them, and use \texttt{(( ))} to calculate and print the sum of the first and last elements of \texttt{evens}.
+\end{enumerate}
+
+Now, answer the following questions:
+\begin{itemize}
+    \item At which index does an array start, and what does \texttt{colors+=("yellow")} do?
+    \item What is the difference between creating a sequence with \texttt{\{1..5\}} and with \texttt{seq}? Which one allows a custom step?
+\end{itemize}
+
+\subsection{Practice 3: Conditions and a File Checker Script}
+This practice covers \texttt{test}, exit status, combined conditions, \texttt{if/elif/else}, and the file, string, and numeric test operators.
+
+\begin{enumerate}
+    \item In the terminal, evaluate a true and a false string comparison using \texttt{test} and \texttt{[ ]}, and print the exit status with \texttt{echo \$?} after each. Then combine \texttt{[ "abcd" = "abcd" ]} with \texttt{[ 3 -gt 2 ]} using \texttt{\&\&}, combine a false condition with a true one using \texttt{||}, and repeat the first combination using \texttt{[[ ]]}.
+    \item Create a script named \texttt{check.sh} that stores a file name in a variable (for example, \texttt{file="data1.txt"}) and uses \texttt{if}, \texttt{elif}, and \texttt{else} to report whether the path does not exist, is a directory, or is a regular file. For a regular file, also report whether it is readable, writable, and executable. Run the script on an existing file, on a directory, and on a missing path by changing the variable.
+    \item Extend \texttt{check.sh} for regular files. Store the number of lines of the file in a variable (for example, \texttt{lines=\$(wc -l < "\$file")}), and use numeric test operators to classify the file as empty, short (up to $10$ lines), or long. Then use \texttt{-z} and \texttt{-n} to check whether a string variable is empty, and use an arithmetic condition with \texttt{(( ))} to check whether \texttt{lines} is even or odd.
+\end{enumerate}
+
+Now, answer the following questions:
+\begin{itemize}
+    \item Which exit status represents true in bash, and which represents false?
+    \item What is the difference between \texttt{[ ]} and \texttt{[[ ]]}?
+    \item Why must you use \texttt{-eq} instead of \texttt{=} when comparing numbers with \texttt{[ ]}?
+\end{itemize}
