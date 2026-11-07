@@ -351,3 +351,59 @@ done
     \item Avoid running slow external commands inside large loops -- each iteration pays their full startup cost.
     \item Test loop logic on a small amount of data before running it against a large dataset.
 \end{itemize}
+
+
+%----------------------------------------------------------------------------------------
+%	CHAPTER 6 - HANDS-ON PRACTICES (append at the end of chapter6.tex)
+%----------------------------------------------------------------------------------------
+
+\section{Hands-on Practices}
+Complete the following three practices using the Linux terminal. Record the commands you use, save your scripts, and explain the results where requested. Work inside your \texttt{os-lab/} directory.
+
+\subsection{Practice 1: Iterating with \texttt{for} Loops}
+This practice covers word lists, brace expansion, the C-style \texttt{for} loop, lists built from variables and command output, and nested loops.
+
+\begin{enumerate}
+    \item Create a directory named \texttt{chapter6-practice} and move into it. Create a script named \texttt{for-loops.sh} that contains three loops: one that prints \texttt{I like \$fruit} for the words \texttt{apple banana orange}, one that prints \texttt{Number: \$num} for \texttt{\{1..5\}}, and one C-style loop that prints \texttt{Value: \$i} from $0$ to $20$ in steps of $5$. Make the script executable and run it.
+    \item Create three files named \texttt{a.txt}, \texttt{b.txt}, and \texttt{c.txt} with different numbers of lines. Create a script named \texttt{list-loops.sh} that loops over the string \texttt{"red green blue"} stored in a variable and prints each color, and then loops over \texttt{*.txt} and prints each file name together with its number of lines. Finally, add a loop over \texttt{\$(ls)} that prints \texttt{Item: \$file}, and run the script.
+    \item Create a script named \texttt{table.sh} that uses nested \texttt{for} loops to print a multiplication table for the numbers $1$ to $3$. For each value of the outer variable \texttt{i}, print a \texttt{Row \$i:} heading, and for each value of the inner variable \texttt{j}, print a line such as \texttt{\ \ 2 x 3 = 6}, calculated with \texttt{\$((i * j))}.
+\end{enumerate}
+
+Now, answer the following questions:
+\begin{itemize}
+    \item What list does \texttt{\{1..5\}} expand to, and how many times does a \texttt{for} loop run for a list of $n$ items?
+    \item How many times did the inner loop body run in \texttt{table.sh} in total, and why?
+    \item Why is \texttt{for file in \$(ls)} not safe for real file processing, and what should you use instead?
+\end{itemize}
+
+\subsection{Practice 2: Repeating with \texttt{while} and \texttt{until}}
+This practice covers condition-controlled loops, accumulating values, reading a file line by line, and the relationship between \texttt{while} and \texttt{until}.
+
+\begin{enumerate}
+    \item Create a script named \texttt{while-loops.sh} that contains two \texttt{while} loops: a countdown that prints \texttt{Countdown: \$counter} from $5$ down to $1$ using \texttt{((counter--))}, and a loop that adds the numbers $1$ to $5$ into a variable \texttt{sum} and prints \texttt{Sum: \$sum} after the loop ends.
+    \item Create a file named \texttt{names.txt} with at least four lines, each containing a different name. Create a script named \texttt{read-file.sh} that reads \texttt{names.txt} line by line using \texttt{while read line} and prints each line together with its line number, using a counter variable that you increase on every pass.
+    \item Create a script named \texttt{until-loops.sh} that contains two \texttt{until} loops: one that counts from $1$ to $5$ and prints \texttt{Counter: \$counter}, and one that increases a variable \texttt{attempt} and prints \texttt{Attempt: \$attempt} until \texttt{attempt} equals $3$. Then rewrite the first loop as a \texttt{while} loop that produces exactly the same output, and compare the two outputs.
+\end{enumerate}
+
+Now, answer the following questions:
+\begin{itemize}
+    \item What would happen if you removed the \texttt{((counter--))} line from the countdown loop, and how can you stop such a loop from the terminal?
+    \item How is the file \texttt{names.txt} given to the \texttt{while read} loop, and when does the loop stop?
+    \item How did you express the same stopping condition with \texttt{until} and with \texttt{while}? When is \texttt{until} more natural to use?
+\end{itemize}
+
+\subsection{Practice 3: Controlling Loops and Combining Concepts}
+This practice covers \texttt{break} and \texttt{continue}, and combines loops with the conditions and arithmetic from Chapter~\ref{ch:shell1}.
+
+\begin{enumerate}
+    \item Create a script named \texttt{control.sh} with a \texttt{for} loop over \texttt{\{1..10\}} that skips every number divisible by $3$ using \texttt{continue} and stops the loop completely with \texttt{break} when the number becomes greater than $8$. Print each remaining number as \texttt{Number: \$num} and run the script.
+    \item Create a script named \texttt{inspect.sh} that loops over every item in the current directory using \texttt{for item in *}. For each item, use \texttt{if/elif/else} to print whether it is a directory, an empty regular file, or a non-empty regular file, using \texttt{wc -l} to count the lines of a regular file. Run the script in the \texttt{chapter6-practice} directory.
+    \item Create a script named \texttt{numbers.sh} with a C-style \texttt{for} loop from $1$ to $20$. Inside the loop, add every even number to a variable \texttt{even\_sum} and count every odd number in a variable \texttt{odd\_count}. Use \texttt{break} to leave the loop as soon as \texttt{even\_sum} becomes greater than $50$. After the loop, print the final values of \texttt{even\_sum}, \texttt{odd\_count}, and the last value of the loop variable.
+\end{enumerate}
+
+Now, answer the following questions:
+\begin{itemize}
+    \item What is the difference between \texttt{break} and \texttt{continue}? Which numbers did each of them affect in \texttt{control.sh}?
+    \item In \texttt{numbers.sh}, at which value of the loop variable did the loop stop, and what were the final values of \texttt{even\_sum} and \texttt{odd\_count}?
+    \item Why is it a good idea to test a loop on a small amount of data before running it on a large dataset?
+\end{itemize}
